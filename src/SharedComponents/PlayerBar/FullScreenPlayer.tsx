@@ -1,7 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { Dimensions, Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
-import SafeAreaView from 'react-native-safe-area-view';
 import { colors } from '../../colors';
 import { fonts } from '../../fonts';
 import { metrics } from '../../metrics';
@@ -13,8 +12,8 @@ const styles = StyleSheet.create({
   container: {
     width: screenWidth,
     height: screenHeight,
-    padding: metrics.paddingVeryLarge,
     position: 'absolute',
+    backgroundColor: colors.backgroundDark,
   },
   albumArt: {
     shadowOffset:{width: 0,  height: 2},
@@ -25,24 +24,28 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   topContainer: {
-    flex: 1.3,
+    flex: 1,
     width: '100%',
+    paddingHorizontal: metrics.paddingVeryLarge,
+    paddingTop: metrics.paddingVeryLarge,
   },
   bottomContainer: {
     flex: 1,
+    paddingHorizontal: metrics.paddingVeryLarge,
   },
   timeText: {
     ...fonts.fontSmall,
     color: colors.textColorDefault,
   },
   songInfoContainer: {
-    flex: 0.5,
+    flex: 0.3,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   seekBarContainer: {
-    flex: 0.3,
+    flex: 0.1,
+    justifyContent: 'center',
   },
   controlsContainer: {
     flex: 0.3,
@@ -69,12 +72,15 @@ export class FullScreenPlayer extends React.Component {
     const songLength = '3:47';
 
     return (
-      <ImageBackground
+      <View
         style={styles.container}
-        resizeMode="cover"
-        blurRadius={90}
-        source={albumArt}
       >
+        <Image
+          resizeMode="cover"
+          blurRadius={90}
+          source={albumArt}
+          style={{position: 'absolute', height: '100%', width: '100%', opacity: 0.6}}
+        />
         <View style={styles.topContainer}>
           <View
             style={{
@@ -174,18 +180,18 @@ export class FullScreenPlayer extends React.Component {
             />
             <Ionicons
               name={'ios-skip-backward'}
-              size={32}
+              size={30}
               color={colors.iconColorLight}
             />
             <Ionicons
               name={'ios-pause'}
-              size={40}
+              size={48}
               style={{marginRight: metrics.paddingNormal}}
               color={colors.iconColorLight}
             />
             <Ionicons
               name={'ios-skip-forward'}
-              size={32}
+              size={30}
               color={colors.iconColorLight}
             />
             <Ionicons
@@ -211,7 +217,7 @@ export class FullScreenPlayer extends React.Component {
           </View>
         </View>
 
-      </ImageBackground>
+      </View>
     );
   }
 }

@@ -8,6 +8,7 @@ import { TrackPreview } from './TrackPreview';
 const screenHeight = Dimensions.get('window').height;
 const previewHeight = 80;
 const fullTranslation = new Animated.Value(-screenHeight + previewHeight);
+const snapPoint = new Animated.Value((-screenHeight + previewHeight) / 10 * 2);
 
 const styles = StyleSheet.create({
 
@@ -112,7 +113,7 @@ export class PlayerBar extends React.Component {
         cond(
           eq(dragging, 1),
           cond(
-            lessThan(add(start, gestureTranslation), -400),
+            lessThan(add(start, gestureTranslation), snapPoint),
             runSpring({
               clock,
               from: position,
@@ -136,7 +137,13 @@ export class PlayerBar extends React.Component {
   private showPlayer() {
     const clock = new Animated.Clock();
 
-    this.translateY = this.interaction(new Value(400), this.gestureState);
+    // this.translateY = runSpring({
+    //   clock,
+    //   from: new Animated.Value(0),
+    //   velocity: new Animated.Value(1),
+    //   toValue: fullTranslation,
+    //   scrollEndDragVelocity: new Animated.Value(0),
+    // });
   }
 
   render() {
