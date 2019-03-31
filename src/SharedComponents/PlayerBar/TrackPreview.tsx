@@ -6,9 +6,17 @@ import { colors } from '../../colors';
 import { fonts } from '../../fonts';
 import { metrics } from '../../metrics';
 
+interface IProps {
+  height: number;
+}
+
 const styles = StyleSheet.create({
   container: {
+    flexDirection: 'column',
     backgroundColor: colors.backgroundVeryLight,
+    zIndex: 2,
+  },
+  infoContainer: {
     padding: metrics.paddingLarge,
   },
   progressContainer: {
@@ -35,15 +43,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export class TrackPreview extends React.Component {
-  
+export class TrackPreview extends React.Component<IProps> {
+
   render() {
     return (
-      <View style={{flexDirection: 'column'}}>
+      <View style={{...styles.container, height: this.props.height}}>
         <View style={styles.progressContainer}>
           <View style={styles.progressBar} />
         </View>
-        <View style={styles.container}>
+        <View style={styles.infoContainer}>
           <View style={styles.playerTextContainer}>
             <Ionicons
               name={'ios-heart'}

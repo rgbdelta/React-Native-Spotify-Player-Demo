@@ -14,9 +14,9 @@ const styles = StyleSheet.create({
     width: screenWidth,
     height: screenHeight,
     padding: metrics.paddingVeryLarge,
+    position: 'absolute',
   },
   albumArt: {
-    elevation: 1,
     shadowOffset:{width: 0,  height: 2},
     shadowColor: 'black',
     shadowOpacity: 0.4,
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   topContainer: {
-    flex: 1.3,
+    flex: 0.9,
     width: '100%',
   },
   bottomContainer: {
@@ -43,13 +43,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   controlsContainer: {
-    flex: 1.6,
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
   footerContainer: {
-    flex: 1,
+    flex: 0.3,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -75,7 +75,14 @@ export class FullScreenPlayer extends React.Component {
       >
         <SafeAreaView forceInset={{top: 'always'}} />
         <View style={styles.topContainer}>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              marginBottom: metrics.paddingLarge,
+            }}
+          >
             <Ionicons
               name={'ios-arrow-down'}
               size={25}
