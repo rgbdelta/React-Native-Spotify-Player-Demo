@@ -1,7 +1,8 @@
 import React from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
-import { PanGestureHandler, PanGestureHandlerStateChangeEvent, State } from 'react-native-gesture-handler';
+import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
+import { runSpring } from '../../Utils/AnimationsUtils';
 import { FullScreenPlayer } from './FullScreenPlayer';
 import { TrackPreview } from './TrackPreview';
 
@@ -11,71 +12,24 @@ const fullTranslation = new Animated.Value(-screenHeight + previewHeight);
 const snapPoint = new Animated.Value((-screenHeight + previewHeight) / 10 * 2);
 
 const styles = StyleSheet.create({
-
+  playerContainer: {
+    position: 'absolute',
+    zIndex: 1,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  }
 });
 
 const {
   event,
-  block,
   add,
   set,
   eq,
   cond,
-  debug,
   Value,
-  spring,
   lessThan,
-  clockRunning,
-  startClock,
-  stopClock,
-  greaterThan,
 } = Animated;
-
-interface IRunSpring {
-  clock: Animated.Clock;
-  from: Animated.Value<number>;
-  velocity: Animated.Value<number>; // Initial velocity of the spring animation
-  toValue: Animated.Value<number>; // Final value of the animation
-  scrollEndDragVelocity: Animated.Value<number>;
-}
-
-function runSpring(args: IRunSpring) {
-  const {clock, velocity, from, toValue, scrollEndDragVelocity} = args;
-
-  const state = {
-    finished: new Value(0),
-    velocity: new Value(0),
-    position: new Value(0),
-    time: new Value(0),
-  };
-
-  const config = {
-    damping: 0,
-    mass: 1,
-    stiffness: 50,
-    overshootClamping: true,
-    restSpeedThreshold: 0.001,
-    restDisplacementThreshold: 0.001,
-    toValue: new Value(0),
-  };
-
-  return [
-    cond(clockRunning(clock), 0, [
-      set(state.finished, 0),
-      set(state.velocity, velocity),
-      set(state.position, from),
-      set(config.toValue, toValue),
-      startClock(clock),
-    ]),
-    spring(clock, state, config),
-    cond(state.finished, [
-      // Once the animation is done, we reset scrollEndDragVelocity to its default value
-      set(scrollEndDragVelocity, 0),
-      stopClock(clock),
-    ]),
-    state.position,
-  ];
-}
 
 export class PlayerBar extends React.Component {
 
@@ -157,7 +111,7 @@ export class PlayerBar extends React.Component {
             transform: [{ translateY: this.translateY }],
           }}
         >
-          <View style={{position: 'absolute', height: previewHeight, zIndex: 1, bottom: 0, left: 0, right: 0}}>
+          <View style={{...styles.playerContainer, height: previewHeight}}>
             <Animated.View
               style={{
                 zIndex: 1,

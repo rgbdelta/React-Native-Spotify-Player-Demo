@@ -79,7 +79,7 @@ export class FullScreenPlayer extends React.Component {
           resizeMode="cover"
           blurRadius={90}
           source={albumArt}
-          style={{position: 'absolute', height: '100%', width: '100%', opacity: 0.6}}
+          style={{position: 'absolute', height: '100%', width: '100%', opacity: 0.8}}
         />
         <View style={styles.topContainer}>
           <View

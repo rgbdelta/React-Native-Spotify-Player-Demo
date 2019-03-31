@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   progressBar: {
     backgroundColor: colors.borderColorLight,
     height: '100%',
-    width: '50%',
+    width: '20%',
   },
   playerTextContainer: {
     flexDirection: 'row',
