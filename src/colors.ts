@@ -5,10 +5,12 @@ export const colors = {
 
   borderColorDefault: '#333',
   borderColorLight: '#fff',
+  borderColorTransparent: 'rgba(255,255,255,0.3)',
 
   textColorLight: '#fff',
-  textColorDefault: '#ddd',
+  textColorDefault: 'rgba(255,255,255,0.6)',
 
-  iconColorDefault: '#aaa',
+  iconColorDefault: 'rgba(255,255,255,0.6)',
+  iconColorLight: '#fff',
   iconColorSuccess: '#6f6',
 };

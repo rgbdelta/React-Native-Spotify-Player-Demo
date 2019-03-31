@@ -2,9 +2,9 @@ import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import SafeAreaView from 'react-native-safe-area-view';
-import { colors } from '../colors';
-import { fonts } from '../fonts';
-import { metrics } from '../metrics';
+import { colors } from '../../colors';
+import { fonts } from '../../fonts';
+import { metrics } from '../../metrics';
 
 const styles = StyleSheet.create({
   container: {
@@ -31,12 +31,12 @@ const styles = StyleSheet.create({
     color: colors.textColorLight,
   },
   albumText: {
-    color: colors.textColorDefault
+    color: colors.textColorDefault,
   },
 });
 
-export class PlayerBar extends React.Component {
-
+export class TrackPreview extends React.Component {
+  
   render() {
     return (
       <View style={{flexDirection: 'column'}}>

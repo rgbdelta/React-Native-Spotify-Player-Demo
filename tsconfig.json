@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "paths": { "*": ["types/*"] },
     "target": "es6",
     "module": "commonjs",
     "jsx": "react-native",
@@ -10,7 +11,6 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "skipLibCheck": true,
-    "rootDir": "./src",
   },
   "exclude": [
     "./node_modules/*"
