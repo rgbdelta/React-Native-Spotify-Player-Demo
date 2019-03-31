@@ -7,6 +7,7 @@ import { TrackPreview } from './TrackPreview';
 
 const screenHeight = Dimensions.get('window').height;
 const previewHeight = 80;
+const fullTranslation = new Animated.Value(-screenHeight + previewHeight);
 
 const styles = StyleSheet.create({
 
@@ -116,7 +117,7 @@ export class PlayerBar extends React.Component {
               clock,
               from: position,
               velocity: new Animated.Value(1),
-              toValue: new Animated.Value(-screenHeight + previewHeight),
+              toValue: fullTranslation,
               scrollEndDragVelocity: new Animated.Value(0),
             }),
             runSpring({
@@ -130,6 +131,12 @@ export class PlayerBar extends React.Component {
         ),
       ),
     );
+  }
+
+  private showPlayer() {
+    const clock = new Animated.Clock();
+
+    this.translateY = this.interaction(new Value(400), this.gestureState);
   }
 
   render() {
@@ -147,10 +154,16 @@ export class PlayerBar extends React.Component {
             <Animated.View
               style={{
                 zIndex: 1,
-                // opacity: this.barOpacity,
+                opacity: Animated.interpolate(
+                  this.translateY,
+                  {
+                    inputRange: [0, 1],
+                    outputRange: [1, 1.01],
+                  },
+                ),
               }}
             >
-              <TrackPreview height={previewHeight}/>
+              <TrackPreview height={previewHeight} onPress={() => this.showPlayer()}/>
             </Animated.View>
             <FullScreenPlayer />
           </View>

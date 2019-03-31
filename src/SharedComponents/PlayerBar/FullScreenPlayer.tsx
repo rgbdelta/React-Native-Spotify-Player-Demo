@@ -25,11 +25,10 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   topContainer: {
-    flex: 0.9,
+    flex: 1.3,
     width: '100%',
   },
   bottomContainer: {
-    marginVertical: metrics.paddingVeryLarge,
     flex: 1,
   },
   timeText: {
@@ -37,13 +36,16 @@ const styles = StyleSheet.create({
     color: colors.textColorDefault,
   },
   songInfoContainer: {
-    flex: 1,
+    flex: 0.5,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  seekBarContainer: {
+    flex: 0.3,
+  },
   controlsContainer: {
-    flex: 1,
+    flex: 0.3,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -73,14 +75,13 @@ export class FullScreenPlayer extends React.Component {
         blurRadius={90}
         source={albumArt}
       >
-        <SafeAreaView forceInset={{top: 'always'}} />
         <View style={styles.topContainer}>
           <View
             style={{
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              marginBottom: metrics.paddingLarge,
+              marginVertical: metrics.paddingVeryLarge,
             }}
           >
             <Ionicons
@@ -95,11 +96,13 @@ export class FullScreenPlayer extends React.Component {
               color={colors.iconColorDefault}
             />
           </View>
-          <Image
-            source={albumArt}
-            style={styles.albumArt}
-            resizeMode="contain"
-          />
+          <View style={{flex: 1}} >
+            <Image
+              source={albumArt}
+              style={styles.albumArt}
+              resizeMode="contain"
+            />
+          </View>
         </View>
 
         <View style={styles.bottomContainer}>
@@ -116,7 +119,7 @@ export class FullScreenPlayer extends React.Component {
             />
           </View>
 
-          <View>
+          <View style={styles.seekBarContainer}>
             <View
               style={{
                 width: '100%',
