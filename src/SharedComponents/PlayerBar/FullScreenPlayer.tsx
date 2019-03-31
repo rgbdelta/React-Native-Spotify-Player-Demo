@@ -32,20 +32,24 @@ const styles = StyleSheet.create({
     marginVertical: metrics.paddingVeryLarge,
     flex: 1,
   },
-  songInfoContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: metrics.paddingLarge,
-  },
-  seekBarContainer: {
-    marginBottom: metrics.paddingLarge,
-  },
   timeText: {
     ...fonts.fontSmall,
     color: colors.textColorDefault,
   },
+  songInfoContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   controlsContainer: {
-    marginVertical: metrics.paddingLarge,
+    flex: 1.6,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  footerContainer: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -105,7 +109,7 @@ export class FullScreenPlayer extends React.Component {
             />
           </View>
 
-          <View style={styles.seekBarContainer}>
+          <View>
             <View
               style={{
                 width: '100%',
@@ -178,7 +182,21 @@ export class FullScreenPlayer extends React.Component {
               name={'ios-infinite'}
               size={25}
               style={{marginLeft: metrics.paddingNormal}}
+              color={colors.iconColorDefault}
+            />
+          </View>
+
+          <View style={styles.footerContainer}>
+            <Ionicons
+              name={'ios-infinite'}
+              size={25}
               color={colors.iconColorLight}
+              style={{opacity: 0}}
+            />
+            <Ionicons
+              name={'ios-list'}
+              size={25}
+              color={colors.iconColorDefault}
             />
           </View>
         </View>
