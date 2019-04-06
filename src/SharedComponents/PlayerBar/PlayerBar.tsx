@@ -29,6 +29,8 @@ const {
   cond,
   Value,
   lessThan,
+  sub,
+  block,
 } = Animated;
 
 export class PlayerBar extends React.Component {
@@ -52,36 +54,40 @@ export class PlayerBar extends React.Component {
 
   private interaction(gestureTranslation: Animated.Value<number>, gestureState: Animated.Value<number>) {
     const start = new Value(0);
+    const dragging = new Value(0);
     const position = new Value(0);
     const clock = new Animated.Clock();
 
     return cond(
       eq(gestureState, State.ACTIVE),
       [
-        // Add dragged distance to current distance
+        cond(dragging, 0, [set(dragging, 1), set(start, position)]),
         set(position, add(start, gestureTranslation)),
       ],
       cond(
         eq(gestureState, State.END),
-        cond(
-          lessThan(add(start, gestureTranslation), snapPoint),
-          // Open if greater than
-          runSpring({
-            clock,
-            from: position,
-            velocity: new Animated.Value(1),
-            toValue: fullTranslation,
-            scrollEndDragVelocity: new Animated.Value(0),
-          }),
-          // Close if less than
-          runSpring({
-            clock,
-            from: position,
-            velocity: new Animated.Value(1),
-            toValue: new Animated.Value(0),
-            scrollEndDragVelocity: new Animated.Value(0),
-          }),
-        ),
+        block([
+          set(dragging, 0),
+          cond(
+            lessThan(add(start, gestureTranslation), snapPoint),
+            // Open if greater than
+            runSpring({
+              clock,
+              from: position,
+              velocity: new Animated.Value(1),
+              toValue: fullTranslation,
+              scrollEndDragVelocity: new Animated.Value(0),
+            }),
+            // Close if less than
+            runSpring({
+              clock,
+              from: position,
+              velocity: new Animated.Value(1),
+              toValue: new Animated.Value(0),
+              scrollEndDragVelocity: new Animated.Value(0),
+            }),
+          ),
+        ]),
       ),
     );
   }

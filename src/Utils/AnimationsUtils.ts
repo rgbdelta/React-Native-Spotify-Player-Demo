@@ -53,6 +53,7 @@ export function runSpring(args: IRunSpring) {
       [
         // Once the animation is done, we reset scrollEndDragVelocity to its default value
         set(scrollEndDragVelocity, 0),
+        set(from, toValue),
         stopClock(clock),
       ],
     ),
