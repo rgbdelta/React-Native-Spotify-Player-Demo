@@ -7,6 +7,11 @@ export const fonts = StyleSheet.create({
     fontSize: metrics.fontSmall,
     color: colors.textColorLight,
   },
+  fontSmallBold: {
+    fontSize: metrics.fontSmall,
+    color: colors.textColorLight,
+    fontWeight: 'bold',
+  },
   fontNormal: {
     fontSize: metrics.fontNormal,
     color: colors.textColorLight,

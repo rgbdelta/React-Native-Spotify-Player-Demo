@@ -1,7 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import SafeAreaView from 'react-native-safe-area-view';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { colors } from '../../colors';
 import { fonts } from '../../fonts';
 import { metrics } from '../../metrics';
@@ -16,14 +15,19 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: colors.backgroundVeryLight,
     zIndex: 2,
+    justifyContent: 'center',
   },
   infoContainer: {
-    padding: metrics.paddingLarge,
+    paddingHorizontal: metrics.paddingLarge,
   },
   progressContainer: {
     flexDirection: 'row',
     height: metrics.borderNormal,
     backgroundColor: colors.borderColorDefault,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
   },
   progressBar: {
     backgroundColor: colors.borderColorLight,
@@ -76,7 +80,7 @@ export class TrackPreview extends React.Component<IProps> {
             />
           </View>
 
-          <SafeAreaView  forceInset={{ top: 'always' }}/>
+          {/* <SafeAreaView  forceInset={{ top: 'always' }}/> */}
         </View>
       </TouchableOpacity>
     );

@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { Dimensions, Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Image, StyleSheet, Text, View } from 'react-native';
 import { colors } from '../../colors';
 import { fonts } from '../../fonts';
 import { metrics } from '../../metrics';
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   topContainer: {
-    flex: 1,
+    flex: 1.4,
     width: '100%',
     paddingHorizontal: metrics.paddingVeryLarge,
     paddingTop: metrics.paddingVeryLarge,
@@ -87,7 +87,8 @@ export class FullScreenPlayer extends React.Component {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              marginVertical: metrics.paddingVeryLarge,
+              marginBottom: metrics.paddingVeryLarge,
+              marginTop: metrics.paddingLarge,
             }}
           >
             <Ionicons
@@ -95,7 +96,7 @@ export class FullScreenPlayer extends React.Component {
               size={25}
               color={colors.iconColorDefault}
             />
-            <Text style={{...fonts.fontNormalBold, textAlign: 'center'}}>{source}</Text>
+            <Text style={{...fonts.fontSmallBold, textAlign: 'center'}}>{source}</Text>
             <Ionicons
               name={'ios-more'}
               size={25}
@@ -147,15 +148,11 @@ export class FullScreenPlayer extends React.Component {
                 style={{
                   borderRadius: 15,
                   backgroundColor: colors.borderColorLight,
-                  height: 15,
-                  width: 15,
+                  height: 13,
+                  width: 13,
                   transform: [
-                    {
-                      translateX: -8,
-                    },
-                    {
-                      translateY: -5,
-                    },
+                    {translateX: -6},
+                    {translateY: -4},
                   ],
                 }}
               />

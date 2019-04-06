@@ -48,11 +48,14 @@ export function runSpring(args: IRunSpring) {
       startClock(clock),
     ]),
     spring(clock, state, config),
-    cond(state.finished, [
-      // Once the animation is done, we reset scrollEndDragVelocity to its default value
-      set(scrollEndDragVelocity, 0),
-      stopClock(clock),
-    ]),
+    cond(
+      state.finished,
+      [
+        // Once the animation is done, we reset scrollEndDragVelocity to its default value
+        set(scrollEndDragVelocity, 0),
+        stopClock(clock),
+      ],
+    ),
     state.position,
   ];
 }

@@ -7,7 +7,7 @@ import { FullScreenPlayer } from './FullScreenPlayer';
 import { TrackPreview } from './TrackPreview';
 
 const screenHeight = Dimensions.get('window').height;
-const previewHeight = 80;
+const previewHeight = 75;
 const fullTranslation = new Animated.Value(-screenHeight + previewHeight);
 const snapPoint = new Animated.Value((-screenHeight + previewHeight) / 10 * 2);
 
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-  }
+  },
 });
 
 const {
@@ -52,44 +52,42 @@ export class PlayerBar extends React.Component {
 
   private interaction(gestureTranslation: Animated.Value<number>, gestureState: Animated.Value<number>) {
     const start = new Value(0);
-    const dragging = new Value(0);
     const position = new Value(0);
     const clock = new Animated.Clock();
 
     return cond(
       eq(gestureState, State.ACTIVE),
       [
-        cond(eq(dragging, 0), [set(dragging, 1), set(start, position)]),
+        // Add dragged distance to current distance
         set(position, add(start, gestureTranslation)),
       ],
       cond(
         eq(gestureState, State.END),
         cond(
-          eq(dragging, 1),
-          cond(
-            lessThan(add(start, gestureTranslation), snapPoint),
-            runSpring({
-              clock,
-              from: position,
-              velocity: new Animated.Value(1),
-              toValue: fullTranslation,
-              scrollEndDragVelocity: new Animated.Value(0),
-            }),
-            runSpring({
-              clock,
-              from: position,
-              velocity: new Animated.Value(1),
-              toValue: new Animated.Value(0),
-              scrollEndDragVelocity: new Animated.Value(0),
-            }),
-          ),
+          lessThan(add(start, gestureTranslation), snapPoint),
+          // Open if greater than
+          runSpring({
+            clock,
+            from: position,
+            velocity: new Animated.Value(1),
+            toValue: fullTranslation,
+            scrollEndDragVelocity: new Animated.Value(0),
+          }),
+          // Close if less than
+          runSpring({
+            clock,
+            from: position,
+            velocity: new Animated.Value(1),
+            toValue: new Animated.Value(0),
+            scrollEndDragVelocity: new Animated.Value(0),
+          }),
         ),
       ),
     );
   }
 
   private showPlayer() {
-    const clock = new Animated.Clock();
+    // const clock = new Animated.Clock();
 
     // this.translateY = runSpring({
     //   clock,
@@ -109,7 +107,7 @@ export class PlayerBar extends React.Component {
         <Animated.View
           style={{
             transform: [{ translateY: this.translateY }],
-          }}
+          } as any}
         >
           <View style={{...styles.playerContainer, height: previewHeight}}>
             <Animated.View
