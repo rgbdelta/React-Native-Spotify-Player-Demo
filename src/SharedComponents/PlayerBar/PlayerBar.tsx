@@ -123,11 +123,8 @@ export class PlayerBar extends React.Component {
       cond(
         eq(gestureState, State.END),
         block([
-          // debug('abso', absoluteTranslation),
-          // debug('snapPoint', snapPoint),
-          // debug('position', position),
           set(dragging, 0),
-          // cond(dragging, 0, [set(dragging, 1), set(start, position)]),
+          set(start, position),
           cond(
             greaterThan(
               absoluteTranslation,
@@ -140,6 +137,10 @@ export class PlayerBar extends React.Component {
             animateSnap,
           ),
         ]),
+        cond(
+          eq(gestureState, State.BEGAN),
+          set(start, position),
+        ),
       ),
     );
   }
