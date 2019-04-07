@@ -65,7 +65,6 @@ export class PlayerBar extends React.Component {
     const isOpen = new Value(0);
     const clock = new Animated.Clock();
 
-    const absoluteTranslation = abs(gestureTranslation);
     const fullTranslation = -screenHeight + previewHeight;
     const snapPoint = new Animated.Value(-fullTranslation / 10 * 2);
 
@@ -85,10 +84,13 @@ export class PlayerBar extends React.Component {
       scrollEndDragVelocity: new Animated.Value(0),
     });
 
-    const newPosition = diffClamp(
-      add(start, gestureTranslation),
+    const newPosition = cond(
+      lessThan(
+        add(start, gestureTranslation),
+        fullTranslation,
+      ),
       fullTranslation,
-      0,
+      add(start, gestureTranslation),
     );
 
     const animateSnap = cond(
@@ -97,7 +99,7 @@ export class PlayerBar extends React.Component {
       openAnim,
     );
 
-    const saveAnimStatus = cond(
+    const saveOpenStatus = cond(
       eq(clockRunning(clock), 0),
       [
         set(isOpen,
@@ -114,33 +116,36 @@ export class PlayerBar extends React.Component {
       eq(gestureState, State.ACTIVE),
       [
         cond(dragging, 0, [set(dragging, 1), set(start, position)]),
-        diffClamp(
-          set(position, newPosition),
-          fullTranslation,
-          0,
-        ),
+        set(position, newPosition),
       ],
       cond(
         eq(gestureState, State.END),
         block([
           set(dragging, 0),
-          set(start, position),
           cond(
-            greaterThan(
-              absoluteTranslation,
-              snapPoint,
+            and(
+              // Check if swiped passed the snap threshold
+              greaterThan(
+                abs(gestureTranslation),
+                snapPoint,
+              ),
+              // Don't snap if full preview is open and dragging up
+              cond(
+                eq(isOpen, 1),
+                lessThan(fullTranslation, add(position, gestureTranslation)),
+                1,
+              ),
             ),
             [
-              saveAnimStatus,
+              // Snap to new position
+              saveOpenStatus,
               animateSnap,
             ],
+            // Snap back
             animateSnap,
           ),
         ]),
-        cond(
-          eq(gestureState, State.BEGAN),
-          set(start, position),
-        ),
+        set(start, position),
       ),
     );
   }
