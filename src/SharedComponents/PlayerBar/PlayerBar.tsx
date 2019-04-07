@@ -2,14 +2,12 @@ import React from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import { PanGestureHandler, State } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
-import { runSpring } from '../../Utils/AnimationsUtils';
+import { runSpring, toAbsolute } from '../../Utils/AnimationsUtils';
 import { FullScreenPlayer } from './FullScreenPlayer';
 import { TrackPreview } from './TrackPreview';
 
 const screenHeight = Dimensions.get('window').height;
 const previewHeight = 75;
-const fullTranslation = new Animated.Value(-screenHeight + previewHeight);
-const snapPoint = new Animated.Value((-screenHeight + previewHeight) / 10 * 2);
 
 const styles = StyleSheet.create({
   playerContainer: {
@@ -29,8 +27,16 @@ const {
   cond,
   Value,
   lessThan,
+  greaterThan,
+  and,
   sub,
+  or,
   block,
+  diffClamp,
+  debug,
+  clockRunning,
+  multiply,
+  abs,
 } = Animated;
 
 export class PlayerBar extends React.Component {
@@ -56,36 +62,82 @@ export class PlayerBar extends React.Component {
     const start = new Value(0);
     const dragging = new Value(0);
     const position = new Value(0);
+    const isOpen = new Value(0);
     const clock = new Animated.Clock();
+
+    const absoluteTranslation = abs(gestureTranslation);
+    const fullTranslation = -screenHeight + previewHeight;
+    const snapPoint = new Animated.Value(-fullTranslation / 10 * 2);
+
+    const openAnim = runSpring({
+      clock,
+      from: position,
+      velocity: new Animated.Value(3),
+      toValue: new Animated.Value(fullTranslation),
+      scrollEndDragVelocity: new Animated.Value(0),
+    });
+
+    const closeAnim = runSpring({
+      clock,
+      from: position,
+      velocity: new Animated.Value(3),
+      toValue: new Animated.Value(0),
+      scrollEndDragVelocity: new Animated.Value(0),
+    });
+
+    const newPosition = diffClamp(
+      add(start, gestureTranslation),
+      fullTranslation,
+      0,
+    );
+
+    const animateSnap = cond(
+      eq(isOpen, 0),
+      closeAnim,
+      openAnim,
+    );
+
+    const saveAnimStatus = cond(
+      eq(clockRunning(clock), 0),
+      [
+        set(isOpen,
+          cond(
+            eq(isOpen, 0),
+            set(isOpen, 1),
+            set(isOpen, 0),
+          ),
+        ),
+      ],
+    );
 
     return cond(
       eq(gestureState, State.ACTIVE),
       [
         cond(dragging, 0, [set(dragging, 1), set(start, position)]),
-        set(position, add(start, gestureTranslation)),
+        diffClamp(
+          set(position, newPosition),
+          fullTranslation,
+          0,
+        ),
       ],
       cond(
         eq(gestureState, State.END),
         block([
+          // debug('abso', absoluteTranslation),
+          // debug('snapPoint', snapPoint),
+          // debug('position', position),
           set(dragging, 0),
+          // cond(dragging, 0, [set(dragging, 1), set(start, position)]),
           cond(
-            lessThan(add(start, gestureTranslation), snapPoint),
-            // Open if greater than
-            runSpring({
-              clock,
-              from: position,
-              velocity: new Animated.Value(1),
-              toValue: fullTranslation,
-              scrollEndDragVelocity: new Animated.Value(0),
-            }),
-            // Close if less than
-            runSpring({
-              clock,
-              from: position,
-              velocity: new Animated.Value(1),
-              toValue: new Animated.Value(0),
-              scrollEndDragVelocity: new Animated.Value(0),
-            }),
+            greaterThan(
+              absoluteTranslation,
+              snapPoint,
+            ),
+            [
+              saveAnimStatus,
+              animateSnap,
+            ],
+            animateSnap,
           ),
         ]),
       ),
@@ -93,15 +145,7 @@ export class PlayerBar extends React.Component {
   }
 
   private showPlayer() {
-    // const clock = new Animated.Clock();
-
-    // this.translateY = runSpring({
-    //   clock,
-    //   from: new Animated.Value(0),
-    //   velocity: new Animated.Value(1),
-    //   toValue: fullTranslation,
-    //   scrollEndDragVelocity: new Animated.Value(0),
-    // });
+    // set(isOpen, 1);
   }
 
   render() {

@@ -9,6 +9,8 @@ const {
   clockRunning,
   startClock,
   stopClock,
+  lessThan,
+  multiply,
 } = Animated;
 
 interface IRunSpring {
