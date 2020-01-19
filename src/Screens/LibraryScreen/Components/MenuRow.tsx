@@ -19,20 +19,18 @@ const styles = StyleSheet.create({
   menuText: fonts.fontNormal,
 });
 
-export class MenuRow extends React.Component<IProps> {
-  render() {
-    const {text, icon} = this.props;
+export function MenuRow(props: IProps) {
+  const {text, icon} = props;
 
-    return (
-      <View style={styles.container}>
-        <Ionicons
-          name={icon}
-          size={32}
-          style={{marginRight: metrics.paddingNormal}}
-          color={colors.iconColorDefault}
-        />
-        <Text style={styles.menuText}>{text}</Text>
-      </View>
-    );
-  }
+  return (
+    <View style={styles.container}>
+      <Ionicons
+        name={icon}
+        size={32}
+        style={{marginRight: metrics.paddingNormal}}
+        color={colors.iconColorDefault}
+      />
+      <Text style={styles.menuText}>{text}</Text>
+    </View>
+  );
 }

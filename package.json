@@ -4,23 +4,29 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
+    "web": "expo start --web",
     "eject": "expo eject",
-    "lint": "tslint --project ./ && tsc"
+    "prettier": "prettier 'src/**/*.ts*'"
   },
   "dependencies": {
-    "expo": "^32.0.0",
-    "react": "16.5.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
-    "react-native-safe-area-view": "^0.13.1"
+    "expo": "~36.0.0",
+    "react": "~16.9.0",
+    "react-dom": "~16.9.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
+    "react-native-gesture-handler": "~1.5.0",
+    "react-native-reanimated": "~1.4.0",
+    "react-native-safe-area-context": "0.6.0",
+    "react-native-screens": "2.0.0-alpha.12",
+    "react-native-web": "~0.11.7"
   },
   "devDependencies": {
-    "@types/expo": "^32.0.9",
-    "@types/expo__vector-icons": "^9.0.1",
-    "@types/react": "^16.8.10",
-    "babel-preset-expo": "^5.0.0",
-    "tslint": "^5.14.0",
-    "tslint-sonarts": "^1.9.0",
-    "typescript": "^3.4.1"
+    "@babel/core": "^7.0.0",
+    "@types/react": "~16.9.0",
+    "@types/react-native": "~0.60.23",
+    "babel-preset-expo": "~8.0.0",
+    "expo-cli": "^3.11.7",
+    "prettier": "^1.19.1",
+    "typescript": "~3.6.3"
   },
   "private": true
 }

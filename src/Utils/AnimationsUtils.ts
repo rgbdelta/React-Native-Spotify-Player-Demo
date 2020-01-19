@@ -11,6 +11,7 @@ const {
   stopClock,
   lessThan,
   multiply,
+  block,
 } = Animated;
 
 interface IRunSpring {
@@ -41,7 +42,7 @@ export function runSpring(args: IRunSpring) {
     toValue: new Value(0),
   };
 
-  return [
+  return block([
     cond(clockRunning(clock), 0, [
       set(state.finished, 0),
       set(state.velocity, velocity),
@@ -60,5 +61,5 @@ export function runSpring(args: IRunSpring) {
       ],
     ),
     state.position,
-  ];
+  ]);
 }

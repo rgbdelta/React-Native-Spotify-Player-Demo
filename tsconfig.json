@@ -1,18 +1,11 @@
 {
   "compilerOptions": {
-    "paths": { "*": ["types/*"] },
-    "target": "es6",
-    "module": "commonjs",
-    "jsx": "react-native",
-    "noEmit": true,
-    "strict": true,
-    "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "experimentalDecorators": true,
+    "jsx": "react-native",
+    "lib": ["dom", "esnext"],
+    "moduleResolution": "node",
+    "noEmit": true,
     "skipLibCheck": true,
-  },
-  "exclude": [
-    "./node_modules/*"
-  ]
+    "resolveJsonModule": true
+  }
 }
